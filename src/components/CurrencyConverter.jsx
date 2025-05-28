@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import './styles.css';
 
 const CurrencyConverter = () => {
     const [amount, setAmount] = useState(1);
@@ -46,56 +47,69 @@ const CurrencyConverter = () => {
     // Calculate converted amount
     const calculateConversion = () => (exchangeRate ? (amount * exchangeRate).toFixed(2) : "Error");
 
+    const currencySymbols = ['$', '€', '£', '¥', '₹', '₿', '$', '€', '£', '¥', '₹', '₿', '$', '€', '£'];
+
     return (
-        <div className="max-w-md w-full bg-white p-6 rounded-lg shadow-md">
-            <h1 className="text-2xl font-semibold text-center text-gray-700 mb-6">Currency Converter</h1>
-            
-            <div className="flex flex-col mb-4">
-                <label className="text-sm font-medium text-gray-600">Amount</label>
-                <input
-                    type="number"
-                    value={amount}
-                    onChange={handleAmountChange}
-                    className="mt-1 p-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"
-                />
-            </div>
-
-            <div className="grid grid-cols-2 gap-4 mb-4">
-                <div>
-                    <label className="text-sm font-medium text-gray-600">From</label>
-                    <select
-                        value={fromCurrency}
-                        onChange={(e) => setFromCurrency(e.target.value)}
-                        className="mt-1 p-2 w-full border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"
-                    >
-                        {currencies.map((currency) => (
-                            <option key={currency} value={currency}>
-                                {currency}
-                            </option>
-                        ))}
-                    </select>
+        <>
+            {currencySymbols.map((symbol, index) => (
+                <div key={index} className="currency-symbol">
+                    {symbol}
                 </div>
-                <div>
-                    <label className="text-sm font-medium text-gray-600">To</label>
-                    <select
-                        value={toCurrency}
-                        onChange={(e) => setToCurrency(e.target.value)}
-                        className="mt-1 p-2 w-full border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"
-                    >
-                        {currencies.map((currency) => (
-                            <option key={currency} value={currency}>
-                                {currency}
-                            </option>
-                        ))}
-                    </select>
+            ))}
+            <div className="container">
+                <div className="converter-card max-w-md w-full p-8">
+                    <h1 className="title text-3xl font-bold text-center mb-8">Currency Converter</h1>
+                    
+                    <div className="flex flex-col mb-6">
+                        <label className="text-sm font-medium text-gray-600 mb-2">Amount</label>
+                        <input
+                            type="number"
+                            value={amount}
+                            onChange={handleAmountChange}
+                            className="input-field p-3 border border-gray-200 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+                        />
+                    </div>
+
+                    <div className="grid grid-cols-2 gap-6 mb-6">
+                        <div>
+                            <label className="text-sm font-medium text-gray-600 mb-2 block">From</label>
+                            <select
+                                value={fromCurrency}
+                                onChange={(e) => setFromCurrency(e.target.value)}
+                                className="currency-select w-full p-3 border border-gray-200 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+                            >
+                                {currencies.map((currency) => (
+                                    <option key={currency} value={currency}>
+                                        {currency}
+                                    </option>
+                                ))}
+                            </select>
+                        </div>
+                        <div>
+                            <label className="text-sm font-medium text-gray-600 mb-2 block">To</label>
+                            <select
+                                value={toCurrency}
+                                onChange={(e) => setToCurrency(e.target.value)}
+                                className="currency-select w-full p-3 border border-gray-200 rounded-lg shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
+                            >
+                                {currencies.map((currency) => (
+                                    <option key={currency} value={currency}>
+                                        {currency}
+                                    </option>
+                                ))}
+                            </select>
+                        </div>
+                    </div>
+
+                    <div className="bg-gray-50 p-6 rounded-lg">
+                        <div className="flex items-center justify-between">
+                            <p className="text-lg font-medium text-gray-800">Converted Amount:</p>
+                            <p className="text-3xl font-bold text-black-800">{calculateConversion()} {toCurrency}</p>
+                        </div>
+                    </div>
                 </div>
             </div>
-
-            <div className="flex items-center justify-between">
-                <p className="text-lg font-medium text-gray-700">Converted Amount:</p>
-                <p className="text-2xl font-bold text-gray-900">{calculateConversion()} {toCurrency}</p>
-            </div>
-        </div>
+        </>
     );
 };
 
